@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArticleItemComponent } from '../article-item/article-item.component';
+import { ArticleService } from '../services/article-service.service';
 import { Article } from '../models/article.model';
 
 @Component({
@@ -26,17 +27,18 @@ import { Article } from '../models/article.model';
   `],
   imports: [CommonModule, ArticleItemComponent]
 })
-export class ArticleListComponent {
-  articles: Article[] = [
-    { id: 1, name: 'Game Boy', imageUrl: 'https://mir-s3-cdn-cf.behance.net/project_modules/1400/d567e772955689.5bf95a82d957d.png', price: 100.99, isOnSale: true, quantityInCart: 0 },
-    { id: 2, name: 'Switch', imageUrl: 'https://assets.nintendo.com/image/upload/f_auto/q_auto/dpr_1.5/c_scale,w_500/ncom/en_US/switch/site-design-update/photo01', price: 150.49, isOnSale: true, quantityInCart: 0 },
-    { id: 3, name: 'Play Station', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/NES-Console-Set.png/800px-NES-Console-Set.png', price: 89.99, isOnSale: false, quantityInCart: 0 }
-  ];
+export class ArticleListComponent implements OnInit {
+  articles: Article[] = [];
+
+  constructor(private articleService: ArticleService) {}
+
+  ngOnInit(): void {
+    this.articleService.articles$.subscribe(articles => {
+      this.articles = articles;
+    });
+  }
 
   onQuantityChange(event: { id: number, quantity: number }) {
-    const article = this.articles.find(a => a.id === event.id);
-    if (article) {
-      article.quantityInCart = event.quantity;
-    }
+    this.articleService.updateQuantity(event.id, event.quantity);
   }
 }
