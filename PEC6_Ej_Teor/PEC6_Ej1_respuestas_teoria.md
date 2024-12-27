@@ -37,7 +37,7 @@ RxJS:
 - Promesas: Emiten un único valor y son ideales para operaciones puntuales asíncronas.
 - Observables: Permiten trabajar con flujos de datos múltiples, continuos y cancelables. Son más potentes y flexibles, especialmente en aplicaciones reactivas.
 
-e) ¿Cuál es la función de la tubería (pipe) async?
+### e) ¿Cuál es la función de la tubería (pipe) async?
 La tubería async es una herramienta proporcionada por Angular que se utiliza para trabajar con valores asíncronos en las plantillas de los componentes. Esta tubería se suscribe automáticamente a observables o promesas y devuelve su valor más reciente.
 
 - Convierte observables o promesas en datos que se pueden mostrar directamente en la vista.
