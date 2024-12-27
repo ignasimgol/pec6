@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ArticleService } from '../services/article-service.service';
-import { Article } from '../models/article.model';
 
 @Component({
   selector: 'app-article-new-reactive',
@@ -40,20 +39,29 @@ export class ArticleNewReactiveComponent {
     });
   }
 
+  get name() {
+    return this.articleForm.get('name');
+  }
+
+  get price() {
+    return this.articleForm.get('price');
+  }
+
+  get imageUrl() {
+    return this.articleForm.get('imageUrl');
+  }
+
+  get forSale() {
+    return this.articleForm.get('forSale');
+  }
+
   onSubmit() {
     this.submitted = true;
     if (this.articleForm.valid) {
-      const newArticle: Article = {
-        id: 0,
-        name: this.articleForm.value.name,
-        imageUrl: this.articleForm.value.imageUrl,
-        price: this.articleForm.value.price,
-        isOnSale: this.articleForm.value.forSale,
-        quantityInCart: 0
-      };
-      this.articleService.addArticle(newArticle);
-      this.articleForm.reset();
-      this.submitted = false;
+      const article = this.articleForm.value;
+      this.articleService.addNewArticle(article); // Llamada al servicio para agregar el artículo
+    } else {
+      console.error('Formulario no válido');
     }
   }
 

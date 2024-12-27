@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArticleItemComponent } from '../article-item/article-item.component';
 import { ArticleService } from '../services/article-service.service';
@@ -11,7 +11,7 @@ import { Article } from '../models/article.model';
     <div>
       <h2>Lista de Artículos</h2>
       <div class="article-list">
-        <div *ngFor="let article of articles">
+        <div *ngFor="let article of articles$ | async">
           <app-article-item 
             [article]="article" 
             (quantityChange)="onQuantityChange($event)">
@@ -27,18 +27,12 @@ import { Article } from '../models/article.model';
   `],
   imports: [CommonModule, ArticleItemComponent]
 })
-export class ArticleListComponent implements OnInit {
-  articles: Article[] = [];
+export class ArticleListComponent {
+  articles$ = this.articleService.getArticles(); // Usamos el Observable
 
   constructor(private articleService: ArticleService) {}
 
-  ngOnInit(): void {
-    this.articleService.articles$.subscribe(articles => {
-      this.articles = articles;
-    });
-  }
-
   onQuantityChange(event: { id: number, quantity: number }) {
-    this.articleService.updateQuantity(event.id, event.quantity);
+    this.articleService.updateArticleQuantity(event.id, event.quantity);
   }
 }
