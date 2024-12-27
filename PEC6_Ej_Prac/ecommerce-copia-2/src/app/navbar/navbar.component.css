@@ -1,0 +1,31 @@
+nav {
+    background-color: #333;
+    padding: 1rem;
+
+  }
+  
+  ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  li {
+    margin-right: 2rem;
+  }
+  
+  a {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+    color: rgb(12, 228, 12);
+  }
+  

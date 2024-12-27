@@ -1,0 +1,39 @@
+<div class="form-container">
+    <h2>Crear nuevo artículo (Reactivo)</h2>
+    <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="name">Nombre del artículo:</label>
+        <input id="name" formControlName="name" />
+        <span *ngIf="name?.touched && name?.invalid || (submitted && name?.invalid)">
+          <ng-container *ngIf="name?.errors?.['required']">Nombre es obligatorio.</ng-container>
+          <ng-container *ngIf="name?.errors?.['forbiddenName']">Nombre no permitido.</ng-container>
+        </span>
+      </div>
+  
+      <div>
+        <label for="price">Precio del artículo:</label>
+        <input id="price" formControlName="price" type="number" />
+        <span *ngIf="price?.touched && price?.invalid || (submitted && price?.invalid)">
+          <ng-container *ngIf="price?.errors?.['required']">Precio es obligatorio.</ng-container>
+          <ng-container *ngIf="price?.errors?.['min']">Precio mínimo: 0,1€.</ng-container>
+        </span>
+      </div>
+  
+      <div>
+        <label for="imageUrl">URL de la imagen:</label>
+        <input id="imageUrl" formControlName="imageUrl" />
+        <span *ngIf="imageUrl?.touched && imageUrl?.invalid || (submitted && imageUrl?.invalid)">
+          <ng-container *ngIf="imageUrl?.errors?.['required']">URL es obligatoria.</ng-container>
+          <ng-container *ngIf="imageUrl?.errors?.['pattern']">URL debe ser válida.</ng-container>
+        </span>
+      </div>
+  
+      <div class="checkbox-container">
+        <label for="forSale">¿En venta?</label>
+        <input id="forSale" formControlName="forSale" type="checkbox" />
+      </div>
+  
+      <button type="submit">Guardar artículo</button>
+    </form>
+  </div>
+  

@@ -1,0 +1,18 @@
+<div [ngClass]="{ 'article-item': true, 'on-sale': article.isOnSale }">
+  <h3>{{ article.name }}</h3>
+  <img [src]="article.imageUrl" alt="Imagen del artículo" class="article-image"/>
+  
+  <!-- Cambiar color del precio si no está en oferta -->
+  <p [ngClass]="{ 'price-off': !article.isOnSale }">Precio: {{ article.price | currency }}</p>
+
+  <!-- Mostrar mensaje según si está en oferta o no -->
+  <p *ngIf="article.isOnSale; else noSale">En venta</p>
+  <ng-template #noSale><p>No disponible para la venta</p></ng-template>
+
+  <div class="quantity-controls">
+    <!-- Deshabilitar los botones cuando el artículo no está en oferta o la cantidad es 0 -->
+    <button (click)="decrementQuantity()" [disabled]="!article.isOnSale || article.quantityInCart <= 0">-</button>
+    <span>{{ article.quantityInCart }}</span>
+    <button (click)="incrementQuantity()" [disabled]="!article.isOnSale">+</button>
+  </div>
+</div>

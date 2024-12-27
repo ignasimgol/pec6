@@ -1,0 +1,63 @@
+<div class="form-container">
+    <h2>Crear nuevo artículo</h2>
+    <form #articleForm="ngForm" (ngSubmit)="onSubmit(articleForm)">
+      <div>
+        <label for="name">Nombre de la consola o videojuego:</label>
+        <input
+          id="name"
+          name="name"
+          [(ngModel)]="article.name"
+          required
+          #name="ngModel"
+        />
+        <span *ngIf="name.touched && name.invalid">
+          Nombre es obligatorio.
+        </span>
+      </div>
+  
+      <div>
+        <label for="price">Precio del artículo:</label>
+        <input
+          id="price"
+          name="price"
+          [(ngModel)]="article.price"
+          required
+          pattern="^\d+(\.\d{1,2})?$"
+          #price="ngModel"
+        />
+        <span *ngIf="price.touched && price.invalid">
+          <ng-container *ngIf="price.errors?.['required']">Precio es obligatorio.</ng-container>
+          <ng-container *ngIf="price.errors?.['pattern']">Precio debe ser numérico.</ng-container>
+        </span>
+      </div>
+  
+      <div>
+        <label for="imageUrl">URL de la imagen:</label>
+        <input
+          id="imageUrl"
+          name="imageUrl"
+          [(ngModel)]="article.imageUrl"
+          required
+          pattern="^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$"
+          #imageUrl="ngModel"
+        />
+        <span *ngIf="imageUrl.touched && imageUrl.invalid">
+          <ng-container *ngIf="imageUrl.errors?.['required']">URL es obligatorio.</ng-container>
+          <ng-container *ngIf="imageUrl.errors?.['pattern']">URL debe ser válida.</ng-container>
+        </span>
+      </div>
+  
+      <div class="checkbox-container">
+        <label for="forSale">¿En venta?</label>
+        <input
+          id="forSale"
+          name="forSale"
+          [(ngModel)]="article.forSale"
+          type="checkbox"
+        />
+      </div>
+  
+      <button type="submit" [disabled]="articleForm.invalid">Guardar artículo</button>
+    </form>
+  </div>
+  
