@@ -1,45 +1,82 @@
-### a) ¿Cuál es la función de los componentes y servicios? (i.e. cuándo se debe
-utilizar cada uno de ellos)
+## Componentes, Servicios y Programación Reactiva en Angular
 
-Componentes:
-Representan la interfaz de usuario y manejan la lógica específica de la vista. Se usan para partes reutilizables de la UI, manejar eventos y vincular datos.
+### a) ¿Cuál es la función de los componentes y servicios?  
+(i.e., ¿cuándo se debe utilizar cada uno de ellos?)
 
-Servicios:
-Encapsulan la lógica de negocio y permiten compartir datos entre componentes. Se usan para interactuar con APIs, manejar datos o implementar lógica compleja.
+- **Componentes**:  
+  Representan la **interfaz de usuario** (UI) y manejan la lógica específica de la vista. Se utilizan para:  
+  - Crear partes reutilizables de la UI.  
+  - Manejar eventos de usuario.  
+  - Vincular datos con el modelo de la aplicación.  
 
-- Componentes para la UI. 
-- Servicios para la lógica y datos compartidos.
+- **Servicios**:  
+  Encapsulan la **lógica de negocio** y permiten compartir datos entre componentes. Se utilizan para:  
+  - Interactuar con APIs externas.  
+  - Manejar y procesar datos.  
+  - Implementar lógica compleja que no pertenece a la vista.  
 
-### b) ¿Qué es la <<inyección de dependencias>>? ¿Para qué sirve el decorador
-@Injectable?
+**Resumen**:  
+- Usa **componentes** para la UI.  
+- Usa **servicios** para la lógica y datos compartidos.
 
-Inyección de dependencias: Técnica para proporcionar objetos necesarios a una clase sin que esta los cree directamente. para que funcione se necesitan dos pasos:
-- Inyección de dependencias: Técnica para proporcionar objetos necesarios a una clase sin que esta los cree directamente.
-- @Injectable: Decorador que permite que una clase sea inyectada como dependencia y administrada por Angular.
+---
 
-@Injectable: Decorador que permite que una clase sea inyectada como dependencia y administrada por Angular.
+### b) ¿Qué es la inyección de dependencias? ¿Para qué sirve el decorador `@Injectable`?
 
-Sirve para:
-- Hacer que una clase pueda ser inyectada en otra.
-- Permitir a Angular resolver las dependencias de esa clase.
-- Registrar automáticamente la clase en el Injector cuando se utiliza con el ámbito global 
+- **Inyección de dependencias**:  
+  Es una técnica que permite proporcionar a una clase los objetos que necesita sin que esta los cree directamente. Esto promueve un diseño más limpio y modular.  
 
-### c) Explica los siguientes conceptos de la programación reactiva que se usan en
-RxJS:
-- Observable: Fuente de datos que puede emitir valores a lo largo del tiempo.
-- Subscription: Conexión activa para escuchar emisiones de un observable.
-- Operators: Funciones para transformar o combinar observables.
-- Subject: Observable especial que permite emitir valores y subscripciones múltiples.
-- Schedulers: Controlan la concurrencia y el momento de ejecución de las tareas.
+**Pasos para que funcione**:  
+1. **Inyección de dependencias**: Proporciona los objetos necesarios a través del sistema de inyección de Angular.  
+2. **`@Injectable`**: Decorador que marca una clase como inyectable y permite que Angular la registre y gestione como una dependencia.  
 
-### d) ¿Cuál es la diferencia entre promesas y observables?
+- **Funciones del decorador `@Injectable`**:  
+  - Permitir que una clase sea inyectada en otras clases.  
+  - Hacer que Angular resuelva y administre las dependencias necesarias.  
+  - Registrar automáticamente la clase en el inyector (si se utiliza con `providedIn: 'root'`, se hace disponible globalmente).  
 
-- Promesas: Emiten un único valor y son ideales para operaciones puntuales asíncronas.
-- Observables: Permiten trabajar con flujos de datos múltiples, continuos y cancelables. Son más potentes y flexibles, especialmente en aplicaciones reactivas.
+---
 
-### e) ¿Cuál es la función de la tubería (pipe) async?
-La tubería async es una herramienta proporcionada por Angular que se utiliza para trabajar con valores asíncronos en las plantillas de los componentes. Esta tubería se suscribe automáticamente a observables o promesas y devuelve su valor más reciente.
+### c) Conceptos de la programación reactiva en RxJS
 
-- Convierte observables o promesas en datos que se pueden mostrar directamente en la vista.
-- Se suscribe al observable o promesa y actualiza automáticamente la vista cuando hay nuevos valores.
-- Cuando el componente se destruye, la tubería cancela automáticamente la suscripción para evitar fugas de memoria.
+1. **Observable**:  
+   Es una fuente de datos que puede emitir valores a lo largo del tiempo. Es la base de RxJS para trabajar con flujos de datos asíncronos o eventuales.
+
+2. **Subscription**:  
+   Es una conexión activa entre un observable y un observador. Permite escuchar las emisiones del observable y manejar los datos emitidos.
+
+3. **Operators**:  
+   Son funciones que permiten transformar, filtrar o combinar observables, facilitando el procesamiento de los flujos de datos.
+
+4. **Subject**:  
+   Es un tipo especial de observable que permite emitir valores manualmente y suscribirse a múltiples observadores.
+
+5. **Schedulers**:  
+   Gestionan la concurrencia y controlan el momento en que las tareas se ejecutan en un flujo reactivo.
+
+---
+
+### d) Diferencia entre promesas y observables
+
+- **Promesas**:  
+  - Emiten **un único valor**.  
+  - Son ideales para operaciones puntuales asíncronas.  
+  - No se pueden cancelar.  
+
+- **Observables**:  
+  - Pueden emitir **múltiples valores** a lo largo del tiempo.  
+  - Soportan cancelación de suscripciones.  
+  - Son más flexibles y adecuados para aplicaciones reactivas que manejan flujos continuos de datos.  
+
+---
+
+### e) ¿Cuál es la función de la tubería (`pipe`) async?
+
+La tubería `async` es una herramienta de Angular que permite trabajar con valores asíncronos directamente en las plantillas de los componentes.  
+
+**Funciones principales**:  
+- Convierte observables o promesas en valores que se pueden mostrar en la vista.  
+- Se suscribe automáticamente al observable o promesa y actualiza la vista con el valor más reciente.  
+- Cancela automáticamente la suscripción cuando el componente se destruye, previniendo fugas de memoria.
+
+**Ventaja clave**: Simplifica el trabajo con datos asíncronos en plantillas, eliminando la necesidad de suscripciones manuales en el código del componente.

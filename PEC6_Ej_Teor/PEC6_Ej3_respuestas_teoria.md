@@ -1,31 +1,53 @@
+## Interceptores y Cadena de Operadores RxJS en Angular
+
 ### a) ¿Qué son los interceptores?
-Los interceptores en Angular son una característica que permite interceptar y modificar las solicitudes HTTP y sus respuestas de manera centralizada antes de que se envíen al servidor o después de recibirlas. Son parte del HttpClientModule y te permiten realizar tareas como:
 
-- Modificar las solicitudes: Puedes agregar cabeceras, parámetros o realizar otras transformaciones antes de que la solicitud se envíe.
-- Capturar las respuestas: Puedes manejar globalmente las respuestas de las solicitudes HTTP, por ejemplo, para manejar errores o realizar transformaciones.
-- Manejo de errores: Puedes manejar errores globalmente, como mostrar mensajes de error, redirigir al usuario o mostrar un spinner de carga.
-- Autenticación y autorización.
+Los interceptores en Angular son una característica que permite interceptar y modificar las solicitudes HTTP y sus respuestas de manera centralizada antes de enviarlas al servidor o después de recibirlas. Son parte del `HttpClientModule` y permiten realizar tareas como:
 
-Los interceptores en Angular implementan la interfaz HttpInterceptor, que tiene un método intercept() que toma dos parámetros:
+- **Modificar las solicitudes**: Agregar cabeceras, parámetros o realizar transformaciones antes de enviar la solicitud.
+- **Capturar las respuestas**: Manejar globalmente las respuestas HTTP, como transformar datos o gestionar errores.
+- **Manejo de errores**: Implementar lógica para gestionar errores, como mostrar mensajes al usuario, redirigirlo o manejar un spinner de carga.
+- **Autenticación y autorización**: Añadir tokens o validar permisos.
 
-- Request: Representa la solicitud HTTP que se va a enviar.
-- Handler: Se utiliza para pasar la solicitud modificada (si es necesario) o la original a la siguiente fase del procesamiento.
+Los interceptores implementan la interfaz `HttpInterceptor`, que requiere el método `intercept()`. Este método toma dos parámetros:
 
-### b) Analiza la siguiente cadena de operadores de RxJS, explica cada uno de los pasos que se están desarrollando y explica en qué caso usarías este código:
+- **`request`**: Representa la solicitud HTTP que se enviará.
+- **`handler`**: Permite pasar la solicitud (modificada o no) a la siguiente fase del procesamiento.
 
-Este código utiliza una cadena de operadores de RxJS para gestionar eficientemente las búsquedas en una aplicación, optimizando el rendimiento y la experiencia del usuario. Aquí está el resumen de los pasos:
+---
 
-- searchSubject: Un Subject de RxJS que emite los valores de búsqueda del usuario.
+### b) Análisis de una cadena de operadores RxJS
 
-- startWith(this.searchTerm): Emite un valor inicial de búsqueda (searchTerm) antes de que cualquier otro valor sea emitido, garantizando que haya siempre un valor predeterminado al inicio.
+#### Código y análisis
 
-- debounceTime(300): Retrasa la emisión hasta que hayan pasado 300 milisegundos desde la última interacción, evitando realizar solicitudes HTTP mientras el usuario sigue escribiendo.
+Este ejemplo utiliza una cadena de operadores RxJS para gestionar búsquedas de manera eficiente, optimizando rendimiento y experiencia del usuario. A continuación, se explican los pasos:
 
-- distinctUntilChanged(): Solo emite valores diferentes al último emitido, evitando acciones innecesarias si el término de búsqueda no ha cambiado.
+1. **`searchSubject`**:  
+   Es un `Subject` de RxJS que emite los valores ingresados por el usuario para realizar la búsqueda.
 
-- merge(this.reloadProductsList): Combina el flujo de la búsqueda con otros eventos, como el botón de recarga de productos, gestionando ambos flujos de forma conjunta.
+2. **`startWith(this.searchTerm)`**:  
+   Emite un valor inicial (`searchTerm`) antes de cualquier otro valor. Esto garantiza que la búsqueda tenga un valor predeterminado desde el inicio.
 
-- switchMap((query) => this.wineService.getWine(this.searchTerm)): Realiza una nueva operación asincrónica (como una llamada a la API) basada en el término de búsqueda, cancelando las solicitudes anteriores si el término cambia.
+3. **`debounceTime(300)`**:  
+   Introduce un retraso de 300 ms antes de emitir valores. Esto evita realizar solicitudes HTTP mientras el usuario sigue escribiendo, reduciendo la carga en el servidor.
 
-Caso de uso:
-Este flujo es ideal para búsquedas en vivo en aplicaciones de compras, donde se desea optimizar las solicitudes, cancelar búsquedas anteriores si el usuario sigue escribiendo y combinar varios eventos. Es útil cuando se quiere evitar la sobrecarga del servidor, mejorando la eficiencia y la experiencia del usuario.
+4. **`distinctUntilChanged()`**:  
+   Solo emite valores si son diferentes al último emitido, evitando acciones innecesarias cuando el término de búsqueda no cambia.
+
+5. **`merge(this.reloadProductsList)`**:  
+   Combina el flujo de búsqueda con otros eventos, como la acción de recargar la lista de productos, para gestionarlos de manera conjunta.
+
+6. **`switchMap((query) => this.wineService.getWine(this.searchTerm))`**:  
+   Realiza una operación asincrónica basada en el término de búsqueda, como una llamada a la API. Si el término cambia antes de recibir la respuesta, las solicitudes anteriores se cancelan automáticamente.
+
+---
+
+#### Caso de uso
+
+Este flujo es ideal para implementar **búsquedas en vivo** en aplicaciones, como:
+
+- Tiendas en línea, donde los usuarios buscan productos en tiempo real.
+- Aplicaciones que requieren optimizar solicitudes para evitar la sobrecarga del servidor.
+- Contextos donde es crucial cancelar solicitudes obsoletas para mantener actualizados los resultados mostrados.
+
+Con este enfoque, se mejora la **eficiencia** y la **experiencia del usuario**, al evitar solicitudes innecesarias y combinar eventos relacionados de forma centralizada.
