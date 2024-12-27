@@ -1,4 +1,4 @@
-a) ¿Cuál es la función de los componentes y servicios? (i.e. cuándo se debe
+### a) ¿Cuál es la función de los componentes y servicios? (i.e. cuándo se debe
 utilizar cada uno de ellos)
 
 Componentes:
@@ -7,24 +7,24 @@ Representan la interfaz de usuario y manejan la lógica específica de la vista.
 Servicios:
 Encapsulan la lógica de negocio y permiten compartir datos entre componentes. Se usan para interactuar con APIs, manejar datos o implementar lógica compleja.
 
-Componentes para la UI. 
-Servicios para la lógica y datos compartidos.
+- Componentes para la UI. 
+- Servicios para la lógica y datos compartidos.
 
-b) ¿Qué es la <<inyección de dependencias>>? ¿Para qué sirve el decorador
+### b) ¿Qué es la <<inyección de dependencias>>? ¿Para qué sirve el decorador
 @Injectable?
 
 Inyección de dependencias: Técnica para proporcionar objetos necesarios a una clase sin que esta los cree directamente. para que funcione se necesitan dos pasos:
-	•	Inyección de dependencias: Técnica para proporcionar objetos necesarios a una clase sin que esta los cree directamente.
-	•	@Injectable: Decorador que permite que una clase sea inyectada como dependencia y administrada por Angular.
+- Inyección de dependencias: Técnica para proporcionar objetos necesarios a una clase sin que esta los cree directamente.
+- @Injectable: Decorador que permite que una clase sea inyectada como dependencia y administrada por Angular.
 
 @Injectable: Decorador que permite que una clase sea inyectada como dependencia y administrada por Angular.
 
 Sirve para:
-	•	Hacer que una clase pueda ser inyectada en otra.
-	•	Permitir a Angular resolver las dependencias de esa clase.
-	•	Registrar automáticamente la clase en el Injector cuando se utiliza con el ámbito global 
+- Hacer que una clase pueda ser inyectada en otra.
+- Permitir a Angular resolver las dependencias de esa clase.
+- Registrar automáticamente la clase en el Injector cuando se utiliza con el ámbito global 
 
-c) Explica los siguientes conceptos de la programación reactiva que se usan en
+### c) Explica los siguientes conceptos de la programación reactiva que se usan en
 RxJS:
 - Observable: Fuente de datos que puede emitir valores a lo largo del tiempo.
 - Subscription: Conexión activa para escuchar emisiones de un observable.
@@ -32,7 +32,7 @@ RxJS:
 - Subject: Observable especial que permite emitir valores y subscripciones múltiples.
 - Schedulers: Controlan la concurrencia y el momento de ejecución de las tareas.
 
-d) ¿Cuál es la diferencia entre promesas y observables?
+### d) ¿Cuál es la diferencia entre promesas y observables?
 
 - Promesas: Emiten un único valor y son ideales para operaciones puntuales asíncronas.
 - Observables: Permiten trabajar con flujos de datos múltiples, continuos y cancelables. Son más potentes y flexibles, especialmente en aplicaciones reactivas.
