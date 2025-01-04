@@ -28,7 +28,7 @@ import { Article } from '../models/article.model';
   imports: [CommonModule, ArticleItemComponent]
 })
 export class ArticleListComponent {
-  articles$ = this.articleService.getArticles(); // Usamos el Observable
+  articles$ = this.articleService.getArticles();
 
   constructor(private articleService: ArticleService) {}
 

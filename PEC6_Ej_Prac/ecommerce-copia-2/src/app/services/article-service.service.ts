@@ -16,7 +16,10 @@ export class ArticleService {
   // Método para obtener los artículos desde la API
   getArticles(): Observable<Article[]> {
     return this.http.get<Article[]>(this.apiUrl).pipe(
-      tap((articles) => this.articlesSubject.next(articles)) // Actualiza el BehaviorSubject
+      tap((articles) => {
+        console.log('Emitiendo nuevos artículos:', articles);
+        this.articlesSubject.next(articles); // Actualiza el BehaviorSubject con los nuevos artículos
+      })
     );
   }
 
@@ -24,16 +27,26 @@ export class ArticleService {
   updateArticleQuantity(id: number, quantity: number): Observable<Article> {
     const url = `${this.apiUrl}/${id}`;
     console.log(`Updating article with ID ${id} to quantity ${quantity}`);
+  
     return this.http.patch<Article>(url, { quantityInCart: quantity }).pipe(
       tap((updatedArticle) => {
         console.log('Updated article:', updatedArticle);
-        const currentArticles = this.articlesSubject.value.map(article =>
-          article.id === id ? { ...article, quantityInCart: updatedArticle.quantityInCart } : article
+  
+        // Aquí estamos actualizando solo ese artículo en la lista
+        const updatedArticles = this.articlesSubject.value.map(article =>
+          article.id === id
+            ? { ...article, quantityInCart: updatedArticle.quantityInCart }
+            : article
         );
-        this.articlesSubject.next(currentArticles);
+        this.articlesSubject.next(updatedArticles);
+  
+        // Refresca la lista de artículos, para asegurarse de que no haya discrepancias
+        this.getArticles().subscribe();
       })
     );
   }
+  
+  
 
   // Método para agregar un nuevo artículo
   addNewArticle(article: Article): Observable<Article> {
