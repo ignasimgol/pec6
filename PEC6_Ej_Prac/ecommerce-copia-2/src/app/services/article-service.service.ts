@@ -13,17 +13,15 @@ export class ArticleService {
 
   constructor(private http: HttpClient) {}
 
-  // Método para obtener los artículos desde la API
   getArticles(): Observable<Article[]> {
     return this.http.get<Article[]>(this.apiUrl).pipe(
       tap((articles) => {
         console.log('Emitiendo nuevos artículos:', articles);
-        this.articlesSubject.next(articles); // Actualiza el BehaviorSubject con los nuevos artículos
+        this.articlesSubject.next(articles);
       })
     );
   }
 
-  // Método para actualizar la cantidad de artículos en el carrito
   updateArticleQuantity(id: number, quantity: number): Observable<Article> {
     const url = `${this.apiUrl}/${id}`;
     console.log(`Updating article with ID ${id} to quantity ${quantity}`);
@@ -40,15 +38,12 @@ export class ArticleService {
         );
         this.articlesSubject.next(updatedArticles);
   
-        // Refresca la lista de artículos, para asegurarse de que no haya discrepancias
         this.getArticles().subscribe();
       })
     );
   }
   
   
-
-  // Método para agregar un nuevo artículo
   addNewArticle(article: Article): Observable<Article> {
     return this.http.post<Article>(this.apiUrl, article).pipe(
       tap((newArticle) => {

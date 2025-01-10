@@ -18,7 +18,7 @@ export class ArticleItemComponent {
 
   incrementQuantity() {
     if (this.article.isOnSale) {
-      this.article.quantityInCart = (this.article.quantityInCart || 0) + 1; // Si es null, lo pone a 0 antes de incrementar
+      this.article.quantityInCart = (this.article.quantityInCart || 0) + 1; 
       this.quantityChange.emit({
         id: this.article.id,
         quantity: this.article.quantityInCart
