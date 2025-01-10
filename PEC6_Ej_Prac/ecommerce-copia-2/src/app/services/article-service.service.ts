@@ -46,6 +46,8 @@ export class ArticleService {
     );
   }
   
+  
+
   // Método para agregar un nuevo artículo
   addNewArticle(article: Article): Observable<Article> {
     return this.http.post<Article>(this.apiUrl, article).pipe(
